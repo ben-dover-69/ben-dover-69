@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Multipurpose Letter</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;500;700&family=Pacifico&family=Quicksand:wght@400;600&family=Comic+Neue:wght@300;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #800020;
+      transition: 0.4s;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    h1 {
+      text-align:center;
+      font-size:4em;
+      color:white;
+      transition:0.3s;
+    }
+
+    .postcard {
+      width: 800px;
+      height: 500px;
+      background-color: #f7f7f7;
+      margin: 0 auto;
+      border-radius: 20px;
+      padding: 3em;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      transition: all .4s ease;
+    }
+
+    input, textarea {
+      border: none;
+      border-radius: 8px;
+      padding:10px;
+      font-size:1.1em;
+      width:90%;
+      font-family: inherit;
+      margin-bottom:10px;
+    }
+
+    textarea { height:150px; resize:none; }
+
+    footer p { color:white; }
+
+    .flip-container { perspective: 1200px; width: 800px; margin: auto; margin-top: 20px; position: relative; }
+    .flipper { position: relative; transition: 0.8s; transform-style: preserve-3d; }
+    .flipped { transform: rotateY(180deg); }
+    .front, .back { backface-visibility: hidden; position: absolute; top:0; left:0; }
+    .back { transform: rotateY(180deg); }
+
+    .dark { background: #0f0f0f !important; color: #e6e6e6 !important; }
+    .dark h1 { color: #ffcee6 !important; }
+    .dark .postcard { background: #1f1f1f !important; color: white !important; box-shadow: 0 10px 25px rgba(255,255,255,0.1);}
+    .dark input, .dark textarea { background: #2a2a2a !important; color: white !important; border: 1px solid #555 !important; }
+    .dark select, .dark button { background: #2a2a2a !important; color: white !important; border: 1px solid #666 !important; }
+    .dark label, .dark p { color:white !important; }
+    .dark .flip-container { background:none !important; }
+
+    .love { background:#800020; font-family:'Poppins'; }
+    .love h1 { font-family:'Pacifico'; }
+    .formal { background:#d9e0e7; font-family:'Playfair Display'; }
+    .formal h1 { color:#002b5b; }
+    .informal { background:#fff0d6; font-family:'Comic Neue'; }
+    .informal h1 { color:#a85b00; }
+    .birthday { background:#ffccf2; font-family:'Poppins'; }
+    .birthday h1 { color:#d60073; }
+    .invitation { background:#eee8ff; font-family:'Quicksand'; }
+    .invitation h1 { color:#3a0088; }
+
+    #playPauseBtn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      background: #ff9dbc;
+      cursor: pointer;
+      position: relative;
+    }
+
+    #playPauseBtn.play::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 18px;
+      width: 0;
+      height: 0;
+      border-left: 15px solid white;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+    }
+
+    #playPauseBtn.pause::before,
+    #playPauseBtn.pause::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      width: 5px;
+      height: 20px;
+      background: white;
+    }
+    #playPauseBtn.pause::before { left: 15px; }
+    #playPauseBtn.pause::after { left: 25px; }
+  </style>
+</head>
+
+<body class="love">
+
+<div style="text-align:center; margin-top:20px;">
+  <label style="color:white; font-size:20px;">Choose Letter Format: </label>
+  <select id="formatSelect" style="padding:8px; font-size:16px; border-radius:8px;">
+    <option value="love">Love Letter</option>
+    <option value="formal">Formal Letter</option>
+    <option value="informal">Informal Letter</option>
+    <option value="birthday">Birthday Letter</option>
+    <option value="invitation">Invitation Letter</option>
+  </select>
+
+  <button id="darkModeBtn" style="margin-left:10px; padding:8px 15px; font-size:16px; border-radius:8px; cursor:pointer;">
+    Dark Mode
+  </button>
+  <button id="flipBtn" style="margin-left:10px; padding:8px 15px; font-size:16px; border-radius:8px; cursor:pointer;">
+    Flip Card
+  </button>
+</div>
+
+<h1 id="titleText">Love Letter</h1>
+
+<div style="text-align:center; margin:10px 0;">
+  <button id="playPauseBtn" class="play"></button>
+</div>
+
+<div class="flip-container">
+  <div class="flipper" id="flipper">
+
+    <div class="front postcard">
+      <div class="letter">
+        <form>
+          <p>Dear </p>
+          <input type="text" id="recipient" placeholder="name of recipient">
+          <p>,</p><br>
+
+          <label>Message</label><br>
+          <textarea id="message"></textarea><br>
+
+          <p id="closingText">Yours Lovingly,</p><br>
+          <input type="text" id="sender_name" placeholder="your name">
+        </form>
+      </div>
+    </div>
+
+    <div class="back postcard">
+      <div class="address" id="addressSection">
+        <label>Recipient Email:</label><br>
+        <input type="email" id="recipient_email" placeholder="recipient's email"><br>
+
+        <div id="invitationAddress">
+          <label>Address:</label><br>
+          <input type="text" id="recipient_address" placeholder="Address">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>Happily crafted by Group 3.</p>
+</footer>
+
+<audio id="bgMusic" loop></audio>
+
+<script>
+const formatSelect = document.getElementById("formatSelect");
+const invitationAddress = document.getElementById("invitationAddress");
+const bgMusic = document.getElementById("bgMusic");
+const flipper = document.getElementById("flipper");
+const darkBtn = document.getElementById("darkModeBtn");
+const playPauseBtn = document.getElementById("playPauseBtn");
+
+playPauseBtn.classList.remove('play');
+playPauseBtn.classList.add('pause');
+
+playPauseBtn.addEventListener("click", () => {
+  if(bgMusic.paused) {
+    bgMusic.play();
+    playPauseBtn.classList.remove('play');
+    playPauseBtn.classList.add('pause');
+  } else {
+    bgMusic.pause();
+    playPauseBtn.classList.remove('pause');
+    playPauseBtn.classList.add('play');
+  }
+});
+
+formatSelect.addEventListener("change", function () {
+  const choice = this.value;
+  document.body.className = choice;
+
+  const title = document.getElementById("titleText");
+  const closing = document.getElementById("closingText");
+  const msg = document.getElementById("message");
+
+  invitationAddress.style.display = (choice === "invitation") ? "block" : "none";
+
+  switch(choice){
+    case "love":
+      title.innerText="Love Letter"; closing.innerText="Yours Lovingly,"; msg.placeholder="My heart beats faster whenever I see you..."; bgMusic.src="kuped.mp3"; break;
+    case "formal":
+      title.innerText="Formal Letter"; closing.innerText="Respectfully Yours,"; msg.placeholder="I am writing to formally inform/request..."; bgMusic.src="peynknwite.mp3"; break;
+    case "informal":
+      title.innerText="Informal Letter"; closing.innerText="Take care,"; msg.placeholder="Hey! Just wanted to check on you..."; bgMusic.src="arizonab.mp3"; break;
+    case "birthday":
+      title.innerText="Birthday Letter"; closing.innerText="Warm wishes,"; msg.placeholder="Happy Birthday! I hope your day is amazing..."; bgMusic.src="bdaysmegs.mp3"; break;
+    case "invitation":
+      title.innerText="Invitation Letter"; closing.innerText="Sincerely,"; msg.placeholder="You are cordially invited to join..."; bgMusic.src="when.mp3"; break;
+  }
+
+  bgMusic.load();
+  bgMusic.play();
+  playPauseBtn.classList.remove('play');
+  playPauseBtn.classList.add('pause');
+});
+
+darkBtn.addEventListener("click", () => { document.body.classList.toggle("dark"); });
+document.getElementById("flipBtn").addEventListener("click", () => { flipper.classList.toggle("flipped"); });
+
+invitationAddress.style.display="none";
+
+bgMusic.src="kuped.mp3";
+bgMusic.load();
+bgMusic.play();
+playPauseBtn.classList.remove('play');
+playPauseBtn.classList.add('pause');
+</script>
+
+</body>
+</html>
